@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc
+@model Sales_Report.Areas.Identity.Data.SalesTransaction
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<h1>Edit</h1>
+<hr/>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="SalesTransaction" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TransactionId"/>
+            <div class="form-group mb-3 mt-2">
+                <label asp-for="SalesItem" class="form-label"></label>
+                <input asp-for="SalesItem" class="form-control"/>
+                <span asp-validation-for="SalesItem" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3 mt-2">
+                <label asp-for="SalesAmount" class="form-label"></label>
+                <input asp-for="SalesAmount" type="number" min="0" class="form-control" />
+                <span asp-validation-for="SalesAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3 mt-2">
+                <label asp-for="SalesDate"></label>
+                <input asp-for="SalesDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+                <span asp-validation-for="SalesDate" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 mt-2">
+                <input asp-for="UserId" value="@UserManager.GetUserId(User)" class="form-control" readonly />
+                <label asp-for="UserId" class="form-label"></label>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3 mt-2">
+                <input type="submit" value="Save" class="btn btn-primary"/>
+                 <a asp-action="Index">Back to List</a> 
+            </div>
+        </form>
+    </div>
+</div>

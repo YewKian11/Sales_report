@@ -1,0 +1,107 @@
+﻿@model Sales_Report.Areas.Identity.Data.MonthlySalesModel
+
+@{
+    ViewData["Title"] = "MonthlySales";
+}
+
+<h1>Monthly Sales report</h1>
+<form asp-controller="SalesTransaction" asp-action="MonthlySales" id="MonthySalesDropDown">
+<div class="row">
+    <div class="col-1">Select Year</div>
+    <div class="col-2">
+            <select asp-for="Year" asp-items="Model.byYear" id="yearDropDown" name="takeYear">
+            <option value="" disabled selected>Select Year</option>
+        </select>
+    </div>
+        
+    <div class="col-1">Select Month</div>
+    <div class="col-2">
+            <select asp-for="Month" asp-items="Model.byMonth" id="monthDropDown" disabled name="takeMonth">
+            <option value=""> Select Month</option>
+        </select>
+        </div>     
+       
+</div>
+     <button type="submit" value="Search" class="btn btn-outline-primary">Search</button>
+    <br/>
+    <hr/>
+</form>
+<table class="table table-light table-striped-columns">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.SalesList![0].TransactionId)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesList![0].UserId)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesList![0].SalesItem)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesList![0].SalesDate)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesList![0].SalesAmount)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesList![0].SalesDateUpdated)</th>
+            
+              <th>Action</th>
+
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var sales in Model.SalesList)
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => sales.TransactionId)</td>
+                <td>@Html.DisplayFor(x => sales.UserId)</td>
+                <td>@Html.DisplayFor(x => sales.SalesItem)</td>
+                <td>@Html.DisplayFor(x => sales.SalesDate)</td>
+                <td>@Html.DisplayFor(x => sales.SalesAmount)</td>
+                <td>@Html.DisplayFor(x => sales.SalesDateUpdated)</td>
+              <td>
+                    <div class="hstack gap-3">
+                        <a asp-action="Edit" asp-route-id="@sales.TransactionId" class="btn btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@sales.TransactionId" class="btn btn-danger">Delete</a>
+
+                    </div>
+              </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Get references to the year and month dropdowns
+            var yearDropdown = $("#yearDropDown");
+            var monthDropdown = $("#monthDropDown");
+
+            // Disable month dropdown initially
+            monthDropdown.prop("disabled", true);
+
+            // Change event for the year dropdown
+            yearDropdown.on("change", function () {
+                var selectedYear = $(this).val();
+
+                // Clear and disable the month dropdown
+                monthDropdown.empty().prop("disabled", true);
+                monthDropdown.append('<option value=""disabled selected>  Select Month</option>');
+
+                // If a year is selected, load months using AJAX
+                if (selectedYear) {
+                    $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("getMonthByYear", "SalesTransaction")',
+                        data: { selectedYear: selectedYear },
+                        dataType: "json",
+                        success: function (data) {
+                           
+                                $.each(data, function (index, item) {
+                                    monthDropdown.append($('<option></option>').val(item).text(item));
+                                });
+                                // Enable the month dropdown
+                                monthDropdown.prop("disabled", false);
+                           
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
+

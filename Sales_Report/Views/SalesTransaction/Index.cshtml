@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc
+@model IEnumerable<Sales_Report.Areas.Identity.Data.SalesTransaction>
+
+
+<h1>Individual Sales Report</h1>
+<a asp-controller="SalesTransaction" asp-action="Create">Create record</a>
+<table class="table table-light table-striped-columns">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.TransactionId)</th>
+            <th>@Html.DisplayNameFor(model => model.UserId)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesItem)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesDate)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesAmount)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesDateUpdated)</th>
+            <th>Action</th>
+
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var sales in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => sales.TransactionId)</td>
+                <td>@Html.DisplayFor(x => sales.UserId)</td>
+                <td>@Html.DisplayFor(x => sales.SalesItem)</td>
+                <td>@Html.DisplayFor(x => sales.SalesDate)</td>
+                <td>@Html.DisplayFor(x => sales.SalesAmount)</td>
+                <td>@Html.DisplayFor(x => sales.SalesDateUpdated)</td>
+                <td>
+                    <div class="hstack gap-3">
+                        <a asp-action="Edit" asp-route-id="@sales.TransactionId" class="btn btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@sales.TransactionId" class="btn btn-danger">Delete</a>
+
+                    </div>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>

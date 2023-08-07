@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<IdentityRole>
+@{
+    ViewData["Title"] = "ApplicationRoles";
+}
+<h1>
+    Create Role
+</h1>
+<a asp-action="Create" asp-controller="AppRoles">Create role</a>
+<table class="table">
+    <thead>
+
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.Id)</th>
+            <th>@Html.DisplayNameFor(x => x.Name)</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <tr>
+
+                <td>@Html.DisplayFor(x => role.Id)</td>
+                <td>@Html.DisplayFor(x => role.Name)</td>
+
+            </tr>
+        }
+    </tbody>
+</table>

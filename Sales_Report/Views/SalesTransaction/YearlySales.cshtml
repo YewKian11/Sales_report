@@ -1,0 +1,53 @@
+﻿@model Sales_Report.Areas.Identity.Data.YearlySalesModel
+
+@{
+    ViewData["Title"] = "YearlySales";
+}
+<h1>Yearly Sales</h1>
+<hr/>
+<form asp-controller="SalesTransaction" asp-action="YearlySales">
+    <p>Select Year :
+     
+        <select asp-for="SelectedYear" asp-items="Model.SalesYear">
+            <option value="" disabled selected>--Select Year--</option>
+            <option value="" >All</option>
+
+        </select>
+     
+    </p>
+    <button type="submit" value="Search" class="btn btn-outline-primary">Search</button>
+</form>
+<table class="table table-light table-striped-columns">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.SalesList![0].TransactionId)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesList![0].UserId)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesList![0].SalesItem)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesList![0].SalesAmount)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesList![0].SalesDateUpdated)</th>
+            <th>@Html.DisplayNameFor(model => model.SalesList![0].SalesDate)</th>
+            
+            
+          @*  <th>Action</th>*@
+
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var sales in Model.SalesList)
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => sales.TransactionId)</td>
+                <td>@Html.DisplayFor(x => sales.UserId)</td>
+                <td>@Html.DisplayFor(x => sales.SalesItem)</td>
+                
+                <td>@Html.DisplayFor(x => sales.SalesAmount)</td>
+                <td>@Html.DisplayFor(x => sales.SalesDateUpdated)</td>
+                <td>@Html.DisplayFor(x => sales.SalesDate)</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
